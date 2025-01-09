@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman dengan Animasi Parallax</title>
+    <link rel="stylesheet" href="css/page.css">
+    <link rel="stylesheet" href="css/burger.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            
+        }
+
+        .banner {
+            width: 100%;
+            height: 300px;
+            background-image: url('grup.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .banner span {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .bento-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+        }
+
+        .box {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: #fff;
+            border-radius: 2px;
+            transition: background-color 0.3s ease;
+        }
+
+        .bento-menu:hover .box {
+            background-color: #FFC107;
+        }
+
+        .menu-container {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            z-index: 1;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .menu-container ul {
+            list-style-type: none;
+            padding: 20px;
+            margin: 0;
+            color: white;
+            text-align: center;
+        }
+
+        .menu-container ul li {
+            padding: 10px 0;
+            cursor: pointer;
+        }
+
+        .menu-container ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-container ul li a:hover {
+            background-color: #555;
+        }
+
+      @media (min-width: 769px) {
+    .banner {
+        height: 300px;
+    }
+}
+@media (max-width: 768px) {
+    .banner {
+        height: 200px;
+    }
+}
+@media (max-width: 480px) {
+    .banner {
+        height: 150px;
+    }
+
+            .menu-container ul li {
+                padding: 8px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bento-menu" id="bentoMenu"></div>
+
+    <div class="menu-container" id="menuContainer">
+        <ul>
+            <li><a href="from.html">Daftar Barang</a></li>
+            <li><a href="#features">Edit Barang</a></li>
+            <li><a href="#contact">Kelola Stok</a></li>
+            <li><a href="from+.html">Input Barang</a></li>
+        </ul>
+    </div>
+
+    <div class="banner">
+        <div class="banner-text">Selamat Datang di Aplikasi Inventaris</div>
+    </div>
+
+    <div class="portrait-image"></div>
+
+    <script>
+        window.addEventListener('scroll', function () {
+            let banner = document.querySelector('.banner');
+            let scrollPosition = window.pageYOffset;
+            if (banner) {
+                banner.style.backgroundPosition = 'center ' + (scrollPosition * 0.5) + 'px';
+            }
+        });
+
+        const bentoMenu = document.getElementById('bentoMenu');
+        const menuContainer = document.getElementById('menuContainer');
+        let menuOpen = false;
+
+        // Membuat kotak-kotak menu bento secara dinamis
+        for (let i = 0; i < 9; i++) {
+            const box = document.createElement('div');
+            box.className = 'box';
+            bentoMenu.appendChild(box);
+        }
+
+        bentoMenu.addEventListener('click', function(event) {
+            event.stopPropagation();
+            menuOpen = !menuOpen;
+            menuContainer.style.left = menuOpen ? '0px' : '-250px';
+            bentoMenu.style.display = menuOpen ? 'none' : 'grid';
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!bentoMenu.contains(event.target) && !menuContainer.contains(event.target) && menuOpen) {
+                menuOpen = false;
+                menuContainer.style.left = '-250px';
+                bentoMenu.style.display = 'grid';
+            }
+        });
+    </script>
+</body>
+</html>
