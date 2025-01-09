@@ -12,13 +12,12 @@
             padding: 0;
             font-family: Arial, sans-serif;
             height: 100%;
-            
         }
 
         .banner {
             width: 100%;
             height: 300px;
-            background-image: url('23795667-3C0D-4ADF-B17E-5ED6E3F88228.jpeg');
+            background-image: url('grup.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -99,20 +98,20 @@
             background-color: #555;
         }
 
-      @media (min-width: 769px) {
-    .banner {
-        height: 300px;
-    }
-}
-@media (max-width: 768px) {
-    .banner {
-        height: 200px;
-    }
-}
-@media (max-width: 480px) {
-    .banner {
-        height: 150px;
-    }
+        @media (min-width: 769px) {
+            .banner {
+                height: 300px;
+            }
+        }
+        @media (max-width: 768px) {
+            .banner {
+                height: 200px;
+            }
+        }
+        @media (max-width: 480px) {
+            .banner {
+                height: 150px;
+            }
 
             .menu-container ul li {
                 padding: 8px 0;
@@ -139,14 +138,6 @@
     <div class="portrait-image"></div>
 
     <script>
-        window.addEventListener('scroll', function () {
-            let banner = document.querySelector('.banner');
-            let scrollPosition = window.pageYOffset;
-            if (banner) {
-                banner.style.backgroundPosition = 'center ' + (scrollPosition * 0.5) + 'px';
-            }
-        });
-
         const bentoMenu = document.getElementById('bentoMenu');
         const menuContainer = document.getElementById('menuContainer');
         let menuOpen = false;
