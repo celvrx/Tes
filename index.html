@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Peta 10 Wilayah Jawa Barat</title>
+    <title>Peta Jawa Barat</title>
     <!-- Menyertakan Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
@@ -15,7 +15,7 @@
     </style>
   </head>
   <body>
-    <h3>Peta 10 Wilayah Jawa Barat</h3>
+    <h3>Peta Jawa Barat</h3>
     <!-- Area untuk peta -->
     <div id="map"></div>
 
@@ -23,74 +23,27 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
-      // Inisialisasi peta dengan pusat Jawa Barat dan zoom level
-      var map = L.map('map').setView([-6.9175, 107.6191], 8); // Koordinat Bandung, Jawa Barat
+      // Koordinat Jawa Barat (sekitar Bandung) dengan zoom level untuk fokus pada Jawa Barat
+      var map = L.map('map').setView([-6.9175, 107.6191], 8); // Koordinat Bandung
 
       // Menambahkan layer peta OpenStreetMap
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
 
-      // Data GeoJSON untuk 10 wilayah di Jawa Barat (contoh fiktif)
-      var jawaBaratGeoJSON = {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Polygon",
-              "coordinates": [
-                [
-                  [107.5, -6.9],
-                  [107.7, -6.8],
-                  [107.8, -6.7],
-                  [107.6, -6.6],
-                  [107.5, -6.7],
-                  [107.5, -6.9]
-                ]
-              ]
-            },
-            "properties": {
-              "name": "Bandung"
-            }
-          },
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Polygon",
-              "coordinates": [
-                [
-                  [107.6, -6.8],
-                  [107.8, -6.8],
-                  [107.9, -6.9],
-                  [107.7, -7.0],
-                  [107.6, -6.8]
-                ]
-              ]
-            },
-            "properties": {
-              "name": "Bekasi"
-            }
-          },
-          // Tambahkan 8 wilayah lainnya...
-        ]
-      };
+      // Menetapkan batas wilayah peta (misalnya, hanya menampilkan Jawa Barat)
+      var southWest = L.latLng(-7.5, 105); // Batas selatan dan barat
+      var northEast = L.latLng(-5.5, 109); // Batas utara dan timur
+      var bounds = L.latLngBounds(southWest, northEast);
 
-      // Menambahkan data GeoJSON ke peta
-      L.geoJSON(jawaBaratGeoJSON).addTo(map);
+      // Membatasi area yang dapat dilihat pada peta ke wilayah Jawa Barat
+      map.setMaxBounds(bounds);
+      map.fitBounds(bounds);
 
-      // Menambahkan marker untuk setiap wilayah
-      var locations = [
-        { lat: -6.9, lon: 107.6, name: "Bandung" },
-        { lat: -6.8, lon: 107.7, name: "Bekasi" },
-        // Tambahkan marker untuk 8 wilayah lainnya
-      ];
-
-      locations.forEach(function(location) {
-        L.marker([location.lat, location.lon])
-          .addTo(map)
-          .bindPopup('<b>' + location.name + '</b>');
-      });
+      // Menambahkan marker di Bandung sebagai contoh
+      L.marker([-6.9175, 107.6191]).addTo(map)
+        .bindPopup('<b>Bandung</b><br>Bandung, Jawa Barat')
+        .openPopup();
     </script>
   </body>
 </html>
