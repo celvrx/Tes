@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Peta Lokasi Perusahaan</title>
+    <title>Peta Lokasi Perusahaan (Dekat)</title>
     <!-- Menyertakan Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Menyertakan Leaflet.markercluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <style>
       /* Atur ukuran peta */
       #map {
@@ -15,41 +18,49 @@
     </style>
   </head>
   <body>
-    <h3>Lokasi Perusahaan di 10 Wilayah</h3>
+    <h3>Lokasi Perusahaan di 10 Wilayah Dekat</h3>
     <!-- Area untuk peta -->
     <div id="map"></div>
 
     <!-- Menyertakan Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Menyertakan Leaflet.markercluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
     <script>
       // Inisialisasi peta dengan koordinat dan level zoom
-      var map = L.map('map').setView([51.505, -0.09], 3); // Koordinat awal, level zoom 3 untuk peta dunia
+      var map = L.map('map').setView([51.505, -0.09], 12); // Koordinat awal, level zoom 12 untuk zoom lebih dekat
 
       // Menambahkan layer peta OpenStreetMap
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
 
-      // Koordinat untuk 10 lokasi berbeda (perusahaan di 10 wilayah)
+      // Inisialisasi marker cluster group
+      var markers = L.markerClusterGroup();
+
+      // Koordinat untuk 10 lokasi berbeda (perusahaan di 10 wilayah dekat)
       var locations = [
         { lat: 51.505, lon: -0.09, name: 'Perusahaan A' },
-        { lat: 48.8566, lon: 2.3522, name: 'Perusahaan B' }, // Paris
-        { lat: 40.7128, lon: -74.0060, name: 'Perusahaan C' }, // New York
-        { lat: 34.0522, lon: -118.2437, name: 'Perusahaan D' }, // Los Angeles
-        { lat: 35.6895, lon: 139.6917, name: 'Perusahaan E' }, // Tokyo
-        { lat: -33.8688, lon: 151.2093, name: 'Perusahaan F' }, // Sydney
-        { lat: 52.5200, lon: 13.4050, name: 'Perusahaan G' }, // Berlin
-        { lat: 41.9028, lon: 12.4964, name: 'Perusahaan H' }, // Rome
-        { lat: 55.7558, lon: 37.6176, name: 'Perusahaan I' }, // Moscow
-        { lat: -22.9068, lon: -43.1729, name: 'Perusahaan J' }  // Rio de Janeiro
+        { lat: 51.507, lon: -0.091, name: 'Perusahaan B' }, // Dekat dengan A
+        { lat: 51.508, lon: -0.092, name: 'Perusahaan C' }, // Dekat dengan A
+        { lat: 51.509, lon: -0.093, name: 'Perusahaan D' }, // Dekat dengan A
+        { lat: 51.510, lon: -0.094, name: 'Perusahaan E' }, // Dekat dengan A
+        { lat: 51.511, lon: -0.095, name: 'Perusahaan F' }, // Dekat dengan A
+        { lat: 51.512, lon: -0.096, name: 'Perusahaan G' }, // Dekat dengan A
+        { lat: 51.513, lon: -0.097, name: 'Perusahaan H' }, // Dekat dengan A
+        { lat: 51.514, lon: -0.098, name: 'Perusahaan I' }, // Dekat dengan A
+        { lat: 51.515, lon: -0.099, name: 'Perusahaan J' }  // Dekat dengan A
       ];
 
-      // Loop untuk menambahkan marker pada setiap lokasi
+      // Loop untuk menambahkan marker pada setiap lokasi dan menambahkannya ke grup cluster
       locations.forEach(function(location) {
-        var marker = L.marker([location.lat, location.lon]).addTo(map);
-        marker.bindPopup('<b>' + location.name + '</b><br>Alamat: ' + location.lat + ', ' + location.lon);
+        var marker = L.marker([location.lat, location.lon]).bindPopup('<b>' + location.name + '</b><br>Alamat: ' + location.lat + ', ' + location.lon);
+        markers.addLayer(marker); // Menambahkan marker ke grup cluster
       });
+
+      // Menambahkan grup cluster ke peta
+      map.addLayer(markers);
     </script>
   </body>
 </html>
