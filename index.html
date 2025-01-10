@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Peta Leaflet - GeoJSON</title>
+  <title>Peta Leaflet - Ikon Toko</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     #map {
@@ -24,126 +24,40 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Data GeoJSON Anda
+    // Buat ikon khusus untuk toko
+    var tokoIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/2972/2972185.png', // URL ikon toko
+      iconSize: [30, 30], // Ukuran ikon
+      iconAnchor: [15, 30], // Titik jangkar ikon
+      popupAnchor: [0, -30] // Posisi popup relatif terhadap ikon
+    });
+
+    // Data GeoJSON
     var geojsonData = {
       "type": "FeatureCollection",
       "features": [
         {
           "type": "Feature",
-          "properties": {},
+          "properties": { "name": "Toko 1" },
           "geometry": {
-            "coordinates": [
-              [
-                [
-                  110.84375279296563,
-                  -7.560011886024598
-                ],
-                [
-                  110.84375279296563,
-                  -7.560011886024598
-                ]
-              ]
-            ],
-            "type": "Polygon"
+            "type": "Point",
+            "coordinates": [110.84824091768871, -7.563990361390509]
           }
         },
         {
           "type": "Feature",
-          "properties": {},
+          "properties": { "name": "Toko 2" },
           "geometry": {
-            "coordinates": [
-              110.84824091768871,
-              -7.563990361390509
-            ],
-            "type": "Point"
+            "type": "Point",
+            "coordinates": [110.84689966035694, -7.563975420904441]
           }
         },
         {
           "type": "Feature",
-          "properties": {},
+          "properties": { "name": "Toko 3" },
           "geometry": {
-            "coordinates": [
-              110.84689966035694,
-              -7.563975420904441
-            ],
-            "type": "Point"
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "coordinates": [
-              110.84620520546412,
-              -7.56394298130499
-            ],
-            "type": "Point"
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "coordinates": [
-              110.84683912952323,
-              -7.561085310483264
-            ],
-            "type": "Point"
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "coordinates": [
-              110.85286005047834,
-              -7.559807430744073
-            ],
-            "type": "Point"
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "coordinates": [
-              110.85166637257612,
-              -7.566399105589156
-            ],
-            "type": "Point"
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "coordinates": [
-              110.85424511050945,
-              -7.564266387677563
-            ],
-            "type": "Point"
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "coordinates": [
-              110.84713549854888,
-              -7.556626025200202
-            ],
-            "type": "Point"
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "coordinates": [
-              110.85040363047864,
-              -7.562210786860234
-            ],
-            "type": "Point"
+            "type": "Point",
+            "coordinates": [110.85040363047864, -7.562210786860234]
           }
         }
       ]
@@ -151,30 +65,11 @@
 
     // Tambahkan GeoJSON ke peta
     L.geoJSON(geojsonData, {
-      style: function(feature) {
-        // Style untuk polygon
-        if (feature.geometry.type === "Polygon") {
-          return { color: "blue", fillColor: "lightblue", fillOpacity: 0.5 };
-        }
-      },
       pointToLayer: function(feature, latlng) {
-        // Style untuk titik
-        return L.circleMarker(latlng, {
-          radius: 8,
-          fillColor: "red",
-          color: "#000",
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.8
-        });
-      },
-      onEachFeature: function(feature, layer) {
-        // Tambahkan popup pada setiap fitur
-        if (feature.geometry.type === "Point") {
-          layer.bindPopup("Titik Koordinat: " + feature.geometry.coordinates);
-        } else if (feature.geometry.type === "Polygon") {
-          layer.bindPopup("Polygon Wilayah");
-        }
+        // Gunakan ikon toko untuk setiap titik
+        return L.marker(latlng, { icon: tokoIcon }).bindPopup(
+          `<b>${feature.properties.name}</b><br>Koordinat: ${latlng.lat}, ${latlng.lng}`
+        );
       }
     }).addTo(map);
   </script>
