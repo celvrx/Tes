@@ -1,126 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Chart Barang Masuk & Keluar</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-      background: white;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-
-    canvas {
-      width: 100%;
-      height: 400px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Live Chart Barang Masuk & Keluar</h1>
-    <canvas id="liveChart"></canvas>
-  </div>
-
-  <script>
-    // Get the canvas element
-    const ctx = document.getElementById('liveChart').getContext('2d');
-
-    // Initial Data for Barang Masuk & Keluar
-    const initialLabels = Array.from({ length: 10 }, (_, i) => `Time ${i + 1}`); // Time labels
-    const initialBarangMasuk = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100)); // Random Barang Masuk
-    const initialBarangKeluar = Array.from({ length: 10 }, () => Math.floor(Math.random() * 50)); // Random Barang Keluar
-
-    // Chart Configuration
-    const liveChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: initialLabels,
-        datasets: [
-          {
-            label: 'Barang Masuk',
-            data: initialBarangMasuk,
-            borderColor: '#28a745',
-            backgroundColor: 'rgba(40, 167, 69, 0.2)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4 // Smooth line
-          },
-          {
-            label: 'Barang Keluar',
-            data: initialBarangKeluar,
-            borderColor: '#dc3545',
-            backgroundColor: 'rgba(220, 53, 69, 0.2)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4 // Smooth line
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              color: '#555'
-            }
-          },
-          x: {
-            ticks: {
-              color: '#555'
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            display: true
-          }
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peta Lokasi Perusahaan</title>
+    <!-- Menyertakan Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      /* Atur ukuran peta */
+      #map {
+        height: 600px; /* Ukuran peta */
+        width: 100%;   /* Peta akan mengisi lebar layar */
       }
-    });
+    </style>
+  </head>
+  <body>
+    <h3>Lokasi Perusahaan XYZ</h3>
+    <!-- Area untuk peta -->
+    <div id="map"></div>
 
-    // Function to Update Data
-    function updateLiveChart() {
-      // Simulate new data for Barang Masuk & Keluar
-      const newBarangMasuk = Math.floor(Math.random() * 100);
-      const newBarangKeluar = Math.floor(Math.random() * 50);
+    <!-- Menyertakan Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-      // Add new data points
-      liveChart.data.labels.push(`Time ${liveChart.data.labels.length + 1}`);
-      liveChart.data.datasets[0].data.push(newBarangMasuk); // Barang Masuk
-      liveChart.data.datasets[1].data.push(newBarangKeluar); // Barang Keluar
+    <script>
+      // Inisialisasi peta dengan koordinat dan level zoom
+      var map = L.map('map').setView([51.505, -0.09], 13); // Koordinat perusahaan (latitude, longitude)
 
-      // Remove oldest data if more than 10 points
-      if (liveChart.data.labels.length > 10) {
-        liveChart.data.labels.shift();
-        liveChart.data.datasets[0].data.shift();
-        liveChart.data.datasets[1].data.shift();
-      }
+      // Menambahkan layer peta OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
 
-      // Update the chart
-      liveChart.update();
-    }
+      // Menambahkan marker di lokasi perusahaan
+      var marker = L.marker([51.5, -0.09]).addTo(map);
 
-    // Update chart every 2 seconds
-    setInterval(updateLiveChart, 2000);
-  </script>
-</body>
+      // Menambahkan popup pada marker
+      marker.bindPopup('<b>Perusahaan XYZ</b><br>Alamat: Jalan Raya No.123')
+            .openPopup();
+    </script>
+  </body>
 </html>
